@@ -1,18 +1,40 @@
 # pokeapi/controllers/pokemon_controller.py
-from services.api import pokemon
+from services.api import pokemon  # Certifique-se de importar corretamente a função de requisição da API
 from urllib.parse import parse_qs
 
-# pokeapi/controllers/pokemon_controller.py
+
+def parse_query_string(query_string):
+    """Função para processar a query string e retornar os parâmetros 'id' e 'key'."""
+    params = parse_qs(query_string)
+    # Pega o 'id' e a 'key' a partir dos parâmetros da URL
+    id_param = params.get('id', [None])[0]  # Pega o valor de 'id', se existir
+    key_param = params.get('key', [None])[0]  # Pega o valor de 'key', se existir
+
+    # Verificando se 'id' é válido
+    if id_param is None:
+        raise ValueError("O parâmetro 'id' é obrigatório.")
+    
+    return id_param, key_param
+
+
 def handle_pokemon_request(query_string):
     try:
-        # Aqui o código busca o ID e a chave (como feito antes)
-        id, key = parse_query_string(query_string)  # Exemplo de função para pegar o ID e a chave
-        pokemon = pokemon(id)  # Função que faz a requisição da API e retorna os dados
+        # Aqui chamamos parse_query_string para obter 'id' e 'key'
+        id, key = parse_query_string(query_string)
         
-        if key in pokemon['pokemons']:
-            return pokemon['pokemons'][key], 200  # Retornando os dados com sucesso (status 200)
+        # Usamos a função pokemon para obter os dados do Pokémon
+        pokemon_data = pokemon(id)  # Certifique-se de que 'pokemon(id)' retorne um dicionário com os dados do Pokémon
+        
+        # Se 'key' for fornecida, tenta acessar o valor correspondente
+        if key:
+            if key in pokemon_data:
+                return pokemon_data[key], 200  # Retorna o valor associado à chave 'key' com status 200
+            else:
+                return {"error": "Chave não encontrada"}, 404  # Caso a chave não exista, retorna 404
         else:
-            return {"error": "Chave não encontrada"}, 404  # Erro caso a chave não exista
+            # Se 'key' não for fornecida, retorna todo o dicionário de dados do Pokémon
+            return pokemon_data, 200  # Retorna o dicionário inteiro com status 200
     
     except Exception as e:
-        return {"error": str(e)}, 400  # Erro genérico, caso algum problema ocorra
+        # Em caso de erro, retorna uma mensagem de erro com status 400
+        return {"error": str(e)}, 400
