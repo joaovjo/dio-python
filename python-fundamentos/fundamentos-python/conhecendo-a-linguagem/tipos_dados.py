@@ -1,3 +1,7 @@
+string = "Hello, World!"
+
+print(string)
+
 # Dicionários são parecidos com JSON
 # Porém JSON é um tipo de notação de dados
 # Já dicionários são um tipo de DADO
