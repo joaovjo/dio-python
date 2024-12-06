@@ -6,3 +6,8 @@ carros = ["HRV", "Golf", "Argo", "Focus"]
 # Para cada carro na lista carros, imprima o carro
 for carro in carros: 
     print(carro)
+print("\n")
+
+# Podemos usar o enumerate para pegar o índice do elemento
+for indice, carro in enumerate(carros): # enumerate retorna o índice e o valor
+    print(f"{indice} - {carro}")
