@@ -4,6 +4,8 @@
 
 frutas = ['banana', 'maçã', 'uva', 'morango', 'abacaxi'] # Lista de frutas
 print(frutas) # ['banana', 'maçã', 'uva', 'morango', 'abacaxi']
+print(frutas[3]) # Seleção de um elemento da lista, nesse caso o índice 3 é 'morango'
+print(frutas[-1]) # Seleção do elemento da lista usando número negativo, ou seja, começa do final da lista, nesse caso o índice -1 é 'abacaxi'
 
 frutas = [] # Lista vazia
 print(frutas) # []
