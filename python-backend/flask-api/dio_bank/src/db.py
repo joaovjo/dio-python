@@ -13,7 +13,8 @@ O objeto g é uma instância de contexto que é única para cada solicitação.
 """
 
 
-def get_db():  # Essa função é responsável por criar uma conexão com o banco de dados SQLite e retornar o objeto de conexão.
+# Essa função é responsável por criar uma conexão com o banco de dados SQLite e retornar o objeto de conexão.
+def get_db():
     if "db" not in g:  # Verifica se a conexão com o banco de dados ainda não foi criada
         g.db = sqlite3.connect(
             current_app.config["DATABASE"], detect_types=sqlite3.PARSE_DECLTYPES
