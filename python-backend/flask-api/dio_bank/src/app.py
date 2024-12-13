@@ -1,9 +1,11 @@
 import os
 import click
+import sqlalchemy as SA
 
 from flask import Flask, current_app
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from datetime import datetime
 
 
 class Base(DeclarativeBase):
@@ -11,6 +13,20 @@ class Base(DeclarativeBase):
 
 
 db = SQLAlchemy(model_class=Base)
+
+
+class User(db.Model):
+    id: Mapped[int] = mapped_column(SA.Integer, primary_key=True)
+    username: Mapped[str] = mapped_column(SA.String, unique=True)
+    email: Mapped[str] = mapped_column(SA.String, unique=True)
+
+
+class Post(db.Model):
+    id: Mapped[int] = mapped_column(SA.Integer, primary_key=True)
+    title: Mapped[str] = mapped_column(SA.String, nullable=False)
+    body: Mapped[str] = mapped_column(SA.String, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(SA.DateTime, server_default=SA.func.now())
+    author_id: Mapped[int] = mapped_column(SA.Integer, SA.ForeignKey("user.id"))
 
 
 @click.command("init-db")  # Define um comando de linha de comando chamado "init-db"
@@ -41,11 +57,6 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
-    # a simple page that says hello
-    @app.route("/hello")
-    def hello():
-        return "Hello, World!"
 
     # Registrar o comando de inicialização do banco de dados
     app.cli.add_command(init_db_command)  # Adiciona o comando "init-db" à interface de linha de comando da aplicação
