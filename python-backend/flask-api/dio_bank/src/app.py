@@ -20,6 +20,9 @@ class User(db.Model):
     username: Mapped[str] = mapped_column(SA.String, unique=True)
     email: Mapped[str] = mapped_column(SA.String, unique=True)
 
+    def __repr__(self) -> str:
+        return f"User(id={self.id!r}, username={self.username!r})"
+
 
 class Post(db.Model):
     id: Mapped[int] = mapped_column(SA.Integer, primary_key=True)
@@ -27,6 +30,9 @@ class Post(db.Model):
     body: Mapped[str] = mapped_column(SA.String, nullable=False)
     created_at: Mapped[datetime] = mapped_column(SA.DateTime, server_default=SA.func.now())
     author_id: Mapped[int] = mapped_column(SA.Integer, SA.ForeignKey("user.id"))
+
+    def __repr__(self) -> str:
+        return f"Post(id={self.id!r}, title={self.title!r}, author_id={self.author_id!r})"
 
 
 @click.command("init-db")  # Define um comando de linha de comando chamado "init-db"
@@ -64,4 +70,9 @@ def create_app(test_config=None):
     # Inicializar a extensão SQLAlchemy
     db.init_app(app)
 
+    # register blueprints
+    from src.controllers import user
+
+    app.register_blueprint(user.app)
+    
     return app
