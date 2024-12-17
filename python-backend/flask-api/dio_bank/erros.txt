@@ -1,0 +1,518 @@
+OperationalError
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: user [SQL: INSERT INTO user (username, email) VALUES (?, ?)] [parameters: ('joaovjo', None)] (Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Traceback (most recent call last)
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute(
+                    ^
+                        cursor, str_statement, effective_parameters, context
+                    )
+ 
+            if self._has_events or self.engine._has_events:
+                self.dispatch.after_cursor_execute(
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+ 
+    def do_executemany(self, cursor, statement, parameters, context=None):
+        cursor.executemany(statement, parameters)
+ 
+    def do_execute(self, cursor, statement, parameters, context=None):
+        cursor.execute(statement, parameters)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+    def do_execute_no_params(self, cursor, statement, context=None):
+        cursor.execute(statement)
+ 
+    def is_disconnect(self, e, connection, cursor):
+The above exception was the direct cause of the following exception:
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\flask\app.py", line 1536, in __call__
+    ) -> cabc.Iterable[bytes]:
+        """The WSGI server calls the Flask application object as the
+        WSGI application. This calls :meth:`wsgi_app`, which can be
+        wrapped to apply middleware.
+        """
+        return self.wsgi_app(environ, start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\flask\app.py", line 1514, in wsgi_app
+            try:
+                ctx.push()
+                response = self.full_dispatch_request()
+            except Exception as e:
+                error = e
+                response = self.handle_exception(e)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^
+            except:  # noqa: B001
+                error = sys.exc_info()[1]
+                raise
+            return response(environ, start_response)
+        finally:
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+        ctx = self.request_context(environ)
+        error: BaseException | None = None
+        try:
+            try:
+                ctx.push()
+                response = self.full_dispatch_request()
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            except Exception as e:
+                error = e
+                response = self.handle_exception(e)
+            except:  # noqa: B001
+                error = sys.exc_info()[1]
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+            request_started.send(self, _async_wrapper=self.ensure_sync)
+            rv = self.preprocess_request()
+            if rv is None:
+                rv = self.dispatch_request()
+        except Exception as e:
+            rv = self.handle_user_exception(e)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        return self.finalize_request(rv)
+ 
+    def finalize_request(
+        self,
+        rv: ft.ResponseReturnValue | HTTPException,
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+ 
+        try:
+            request_started.send(self, _async_wrapper=self.ensure_sync)
+            rv = self.preprocess_request()
+            if rv is None:
+                rv = self.dispatch_request()
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+        except Exception as e:
+            rv = self.handle_user_exception(e)
+        return self.finalize_request(rv)
+ 
+    def finalize_request(
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+            and req.method == "OPTIONS"
+        ):
+            return self.make_default_options_response()
+        # otherwise dispatch to the handler for that endpoint
+        view_args: dict[str, t.Any] = req.view_args  # type: ignore[assignment]
+        return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+    def full_dispatch_request(self) -> Response:
+        """Dispatches the request and on top of that performs request
+        pre and postprocessing as well as HTTP exception catching and
+        error handling.
+File "C:\t_joao.jesus\dio-python\python-backend\flask-api\dio_bank\src\controllers\user.py", line 20, in handle_user
+ 
+ 
+@app.route("/", methods=["GET", "POST"])
+def handle_user():
+    if FLASK.request.method == "POST":
+        _create_user()
+        ^^^^^^^^^^^^^^
+        return {"message": "User created!"}, HTTP.HTTPStatus.CREATED
+    else:
+        return {"users": []}
+File "C:\t_joao.jesus\dio-python\python-backend\flask-api\dio_bank\src\controllers\user.py", line 14, in _create_user
+ 
+def _create_user():
+    data = FLASK.request.json
+    user = APP.User(username=data["username"])
+    APP.db.session.add(user)
+    APP.db.session.commit()
+    ^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ 
+@app.route("/", methods=["GET", "POST"])
+def handle_user():
+    if FLASK.request.method == "POST":
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\scoping.py", line 597, in commit
+            :ref:`asyncio_orm_avoid_lazyloads`
+ 
+ 
+        """  # noqa: E501
+ 
+        return self._proxied.commit()
+               ^^^^^^^^^^^^^^^^^^^^^^
+ 
+    def connection(
+        self,
+        bind_arguments: Optional[_BindArguments] = None,
+        execution_options: Optional[CoreExecuteOptionsParameter] = None,
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\session.py", line 2028, in commit
+        """
+        trans = self._transaction
+        if trans is None:
+            trans = self._autobegin_t()
+ 
+        trans.commit(_to_root=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+    def prepare(self) -> None:
+        """Prepare the current transaction in progress for two phase commit.
+ 
+        If no transaction is in progress, this method raises an
+File "<string>", line 2, in commit
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+                    )
+ 
+            self._current_fn = fn
+            self._next_state = _StateChangeStates.CHANGE_IN_PROGRESS
+            try:
+                ret_value = fn(self, *arg, **kw)
+                            ^^^^^^^^^^^^^^^^^^^^
+            except:
+                raise
+            else:
+                if self._state is expect_state:
+                    return ret_value
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\session.py", line 1313, in commit
+        SessionTransactionState.CLOSED,
+    )
+    def commit(self, _to_root: bool = False) -> None:
+        if self._state is not SessionTransactionState.PREPARED:
+            with self._expect_state(SessionTransactionState.PREPARED):
+                self._prepare_impl()
+                ^^^^^^^^^^^^^^^^^^^^
+ 
+        if self._parent is None or self.nested:
+            for conn, trans, should_commit, autoclose in set(
+                self._connections.values()
+            ):
+File "<string>", line 2, in _prepare_impl
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+                    )
+ 
+            self._current_fn = fn
+            self._next_state = _StateChangeStates.CHANGE_IN_PROGRESS
+            try:
+                ret_value = fn(self, *arg, **kw)
+                            ^^^^^^^^^^^^^^^^^^^^
+            except:
+                raise
+            else:
+                if self._state is expect_state:
+                    return ret_value
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\session.py", line 1288, in _prepare_impl
+ 
+        if not self.session._flushing:
+            for _flush_guard in range(100):
+                if self.session._is_clean():
+                    break
+                self.session.flush()
+                ^^^^^^^^^^^^^^^^^^^^
+            else:
+                raise exc.FlushError(
+                    "Over 100 subsequent flushes have occurred within "
+                    "session.commit() - is an after_flush() hook "
+                    "creating new objects?"
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\session.py", line 4352, in flush
+ 
+        if self._is_clean():
+            return
+        try:
+            self._flushing = True
+            self._flush(objects)
+            ^^^^^^^^^^^^^^^^^^^^
+        finally:
+            self._flushing = False
+ 
+    def _flush_warning(self, method: Any) -> None:
+        util.warn(
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\session.py", line 4487, in _flush
+            self.dispatch.after_flush_postexec(self, flush_context)
+ 
+            transaction.commit()
+ 
+        except:
+            with util.safe_reraise():
+                 ^^^^^^^^^^^^^^^^^^^
+                transaction.rollback(_capture_exception=True)
+ 
+    def bulk_save_objects(
+        self,
+        objects: Iterable[object],
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+        # see #2703 for notes
+        if type_ is None:
+            exc_type, exc_value, exc_tb = self._exc_info
+            assert exc_value is not None
+            self._exc_info = None  # remove potential circular references
+            raise exc_value.with_traceback(exc_tb)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        else:
+            self._exc_info = None  # remove potential circular references
+            assert value is not None
+            raise value.with_traceback(traceback)
+ 
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\session.py", line 4448, in _flush
+ 
+        flush_context.transaction = transaction = self._autobegin_t()._begin()
+        try:
+            self._warn_on_events = True
+            try:
+                flush_context.execute()
+                ^^^^^^^^^^^^^^^^^^^^^^^
+            finally:
+                self._warn_on_events = False
+ 
+            self.dispatch.after_flush(self, flush_context)
+ 
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+                while set_:
+                    n = set_.pop()
+                    n.execute_aggregate(self, set_)
+        else:
+            for rec in topological.sort(self.dependencies, postsort_actions):
+                rec.execute(self)
+                ^^^^^^^^^^^^^^^^^
+ 
+    def finalize_flush_changes(self) -> None:
+        """Mark processed objects as clean / deleted after a successful
+        flush().
+ 
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+        self.sort_key = ("SaveUpdateAll", mapper._sort_key)
+        assert mapper is mapper.base_mapper
+ 
+    @util.preload_module("sqlalchemy.orm.persistence")
+    def execute(self, uow):
+        util.preloaded.orm_persistence.save_obj(
+        ^
+            self.mapper,
+            uow.states_for_mapper_hierarchy(self.mapper, False, False),
+            uow,
+        )
+ 
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+            mapper,
+            table,
+            update,
+        )
+ 
+        _emit_insert_statements(
+        ^
+            base_mapper,
+            uowtransaction,
+            mapper,
+            table,
+            insert,
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1233, in _emit_insert_statements
+                            statement.values(value_params),
+                            params,
+                            execution_options=execution_options,
+                        )
+                    else:
+                        result = connection.execute(
+                                 
+                            statement,
+                            params,
+                            execution_options=execution_options,
+                        )
+ 
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\engine\base.py", line 1418, in execute
+        try:
+            meth = statement._execute_on_connection
+        except AttributeError as err:
+            raise exc.ObjectNotExecutableError(statement) from err
+        else:
+            return meth(
+                   
+                self,
+                distilled_parameters,
+                execution_options or NO_OPTIONS,
+            )
+ 
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\sql\elements.py", line 515, in _execute_on_connection
+        execution_options: CoreExecuteOptionsParameter,
+    ) -> Result[Any]:
+        if self.supports_execution:
+            if TYPE_CHECKING:
+                assert isinstance(self, Executable)
+            return connection._execute_clauseelement(
+                   
+                self, distilled_params, execution_options
+            )
+        else:
+            raise exc.ObjectNotExecutableError(self)
+ 
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\engine\base.py", line 1640, in _execute_clauseelement
+            column_keys=keys,
+            for_executemany=for_executemany,
+            schema_translate_map=schema_translate_map,
+            linting=self.dialect.compiler_linting | compiler.WARN_LINTING,
+        )
+        ret = self._execute_context(
+              
+            dialect,
+            dialect.execution_ctx_cls._init_compiled,
+            compiled_sql,
+            distilled_parameters,
+            execution_options,
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+        context.pre_exec()
+ 
+        if context.execute_style is ExecuteStyle.INSERTMANYVALUES:
+            return self._exec_insertmany_context(dialect, context)
+        else:
+            return self._exec_single_context(
+                   
+                dialect, context, statement, parameters
+            )
+ 
+    def _exec_single_context(
+        self,
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+            context.post_exec()
+ 
+            result = context._setup_result_proxy()
+ 
+        except BaseException as e:
+            self._handle_dbapi_exception(
+            ^
+                e, str_statement, effective_parameters, cursor, context
+            )
+ 
+        return result
+ 
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+ 
+            if newraise:
+                raise newraise.with_traceback(exc_info[2]) from e
+            elif should_wrap:
+                assert sqlalchemy_exception is not None
+                raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            else:
+                assert exc_info[1] is not None
+                raise exc_info[1].with_traceback(exc_info[2])
+        finally:
+            del self._reentrant_error
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute(
+                    ^
+                        cursor, str_statement, effective_parameters, context
+                    )
+ 
+            if self._has_events or self.engine._has_events:
+                self.dispatch.after_cursor_execute(
+File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+ 
+    def do_executemany(self, cursor, statement, parameters, context=None):
+        cursor.executemany(statement, parameters)
+ 
+    def do_execute(self, cursor, statement, parameters, context=None):
+        cursor.execute(statement, parameters)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+    def do_execute_no_params(self, cursor, statement, context=None):
+        cursor.execute(statement)
+ 
+    def is_disconnect(self, e, connection, cursor):
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: user [SQL: INSERT INTO user (username, email) VALUES (?, ?)] [parameters: ('joaovjo', None)] (Background on this error at: https://sqlalche.me/e/20/e3q8)
+This is the Copy/Paste friendly version of the traceback.
+
+Traceback (most recent call last):
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: user
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\flask\app.py", line 1514, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\t_joao.jesus\dio-python\python-backend\flask-api\dio_bank\src\controllers\user.py", line 20, in handle_user
+    _create_user()
+  File "C:\t_joao.jesus\dio-python\python-backend\flask-api\dio_bank\src\controllers\user.py", line 14, in _create_user
+    APP.db.session.commit()
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\scoping.py", line 597, in commit
+    return self._proxied.commit()
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\session.py", line 2028, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\session.py", line 1313, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\session.py", line 1288, in _prepare_impl
+    self.session.flush()
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\session.py", line 4352, in flush
+    self._flush(objects)
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\session.py", line 4487, in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\session.py", line 4448, in _flush
+    flush_context.execute()
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\engine\base.py", line 1418, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\sql\elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\engine\base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\t_joao.jesus\AppData\Local\pypoetry\Cache\virtualenvs\dio-bank-HRE00BwC-py3.12\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: user
+[SQL: INSERT INTO user (username, email) VALUES (?, ?)]
+[parameters: ('joaovjo', None)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+The debugger caught an exception in your WSGI application. You can now look at the traceback which led to the error. If you enable JavaScript you can also use additional features such as code execution (if the evalex feature is enabled), automatic pasting of the exceptions and much more.
+Brought to you by DON'T PANIC, your friendly Werkzeug powered traceback interpreter.
+Console Locked
+The console is locked and needs to be unlocked by entering the PIN. You can find the PIN printed out on the standard output of your shell that runs the server.
+
+PIN: 
+ 

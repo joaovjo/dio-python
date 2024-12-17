@@ -74,5 +74,5 @@ def create_app(test_config=None):
     from src.controllers import user
 
     app.register_blueprint(user.app)
-    
+
     return app

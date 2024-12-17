@@ -1,6 +1,6 @@
-from flask import Blueprint, request
-from src.app import User, db
 from http import HTTPStatus
+from flask import Blueprint, request
+from src.app import db, User
 
 # localhost:5000
 
@@ -18,6 +18,7 @@ def _create_user():
 def handle_user():
     if request.method == "POST":
         _create_user()
+        print("eoq")
         return {"message": "User created!"}, HTTPStatus.CREATED
     else:
         return {"users": []}
