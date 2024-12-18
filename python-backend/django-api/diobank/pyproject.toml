@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "diobank"
+version = "0.1.0"
+description = ""
+authors = ["João Vitor de Jesus Oliveira <contato@joaovjo.com.br>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "*"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
